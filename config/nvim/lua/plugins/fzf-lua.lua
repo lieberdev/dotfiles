@@ -1,14 +1,15 @@
 return {
   "ibhagwan/fzf-lua",
+  --@module "fzf-lua"
+  ---@type fzf-lua.Config|{}
   opts = {
-    { "telescope" },
-    winopts = {
-      fullscreen = true,
-      preview = { hidden = true },
+    { "borderless" },
+    winopts = { fullscreen = true },
+    keymap = {
+      fzf = {
+        ["ctrl-l"] = "select-all+accept",
+      }
     },
-    fzf_opts = { ["--no-scrollbar"] = true },
-    fzf_colors = true,
-    hls = { title_flags = "title" } -- highlight groups
   },
   keys = {
     { "<leader>sf", "<CMD>FzfLua files<CR>" },

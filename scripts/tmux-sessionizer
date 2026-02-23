@@ -94,21 +94,4 @@ if ! has_session "$selected_name"; then
   tmux new-session -ds $selected_name -c $selected
 fi
 
-if [[ -n "$TMUX" ]]; then
-  current_session_name=$(tmux display-message -p '#S')
-  if [[ "$current_session_name" != "$selected_name" ]]; then
-    # Get the ID of the pane where this script is running
-    active_pane_id=$(tmux display-message -p '#{pane_id}')
-    panes_to_clear=$(tmux list-panes -s -t "$current_session_name" -F '#{pane_id}')
-
-    for pane in $panes_to_clear; do
-      # Only send C-c if the pane is NOT the one running this script
-      if [[ "$pane" != "$active_pane_id" ]]; then
-        tmux send-keys -t "$pane" C-c
-      fi
-    done
-    # --- END FIX ---
-  fi
-fi
-
 switch_to "$selected_name"

@@ -3,7 +3,7 @@ return {
   lazy = false,
   ---@module 'oil'
   ---@type oil.SetupOpts
-  opts = { view_options = { show_hidden = true } },
+  opts = {},
   keys = {
     { "<leader>-", "<CMD>Oil<CR>" }
   },

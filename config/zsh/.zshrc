@@ -1,14 +1,18 @@
 ##### Setup
+# Setup vi-mode
+ZVM_INIT_MODE=sourcing
+ZVM_LINE_INIT_MODE=$ZVM_MODE_INSERT # Goes into insert if I press enter
+source $(brew --prefix)/opt/zsh-vi-mode/share/zsh-vi-mode/zsh-vi-mode.plugin.zsh
+# Setup fzf history plugin
+source <(fzf --zsh)
+FZF_CTRL_R_OPTS="--height 12 --layout reverse"
+autoload -Uz compinit
+# Misc
 FPATH=$(brew --prefix)/share/zsh-completions:$FPATH # Add zsh-completions
 eval "$(/opt/homebrew/bin/brew shellenv)" # Add brew to PATH
 PATH=`go env GOPATH`/bin/:$PATH # Add go tools to PATH
 PATH="/opt/homebrew/opt/rustup/bin:$PATH" # Add rustup to PATH
 PATH="/opt/homebrew/opt/libpq/bin:$PATH" # Add psql to PATH
-PATH="$(brew --prefix gcc)/bin:$PATH" # Add latest gcc compiler
-# Setup fzf history plugin
-source <(fzf --zsh)
-FZF_CTRL_R_OPTS="--height 12 --layout reverse"
-autoload -Uz compinit
 
 ##### Environment Vars
 export VISUAL="nvim"
@@ -18,17 +22,23 @@ export GIT_EDITOR="nvim"
 export PATH="$HOME/dotfiles/scripts:$PATH"
 # https://bitwarden.com/help/ssh-agent/#tab-macos-6VN1DmoAVFvm7ZWD95curS
 export SSH_AUTH_SOCK="$HOME/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+# homebrew
+export HOMEBREW_NO_UPDATE_REPORT_NEW=1
 
 # C Stuff
 # Needed for external c and c++ compilers
 export CFLAGS="-isysroot $(xcrun -show-sdk-path) ${CFLAGS}"
 export CXXFLAGS="-isysroot $(xcrun -show-sdk-path) ${CXXFLAGS}"
 export LDFLAGS="-L$(xcrun -show-sdk-path)/usr/lib ${LDFLAGS}"
+set_clang_21() {
+  export CC="$(brew --prefix llvm)/bin/clang"
+  export CXX="$(brew --prefix llvm)/bin/clang++"
+}
 set_gcc_15() {
   export CC="$(brew --prefix gcc)/bin/gcc-15"
   export CXX="$(brew --prefix gcc)/bin/g++-15"
 }
-set_gcc_15 # set default compiler to gcc-15
+set_clang_21 # set default compiler to clang-21
 
 ##### Aliases
 alias python="python3"

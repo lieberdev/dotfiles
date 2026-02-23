@@ -53,3 +53,4 @@ rm -rf $HOME/dotfiles/config/karabiner/automatic_backups
 copy_file $HOME/.config/zsh/.zshrc $HOME/dotfiles/config/zsh
 copy_file $HOME/.gitconfig $HOME/dotfiles/config
 copy_file $HOME/.ssh/config $HOME/dotfiles/config/ssh
+execute echo "Successfully backed up dotfiles!"

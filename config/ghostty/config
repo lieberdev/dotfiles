@@ -1,5 +1,4 @@
-theme = light:builtin tango light,dark:onedark
-# theme = builtin tango light
+theme = light:Raycast Light,dark:Raycast Dark
 
 font-family = JetBrainsMonoNL NFM Bold
 font-size = 21
@@ -9,8 +8,7 @@ font-feature = -calt
 font-feature = -liga
 font-feature = -dlig
 
-shell-integration-features = no-cursor
 window-padding-color = extend
 macos-titlebar-style = hidden
-
 confirm-close-surface = false
+shell-integration-features = ssh-env

@@ -54,20 +54,19 @@ execute eval "$(/opt/homebrew/bin/brew shellenv)"
 
 log "Setting up Mac"
 # Change network name to smth that doesn't include my name
-execute sudo scutil --set ComputerName MacBook
-execute sudo scutil --set LocalHostName MacBook
+execute sudo scutil --set ComputerName Magbook
+execute sudo scutil --set LocalHostName Magbook
 # Do not respond to ICMP ping requests and connection attempts from a closed TCP or UDP port
 execute sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setglobalstate on
 execute sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setstealthmode on
+# Prevent built-in software as well as code-signed, downloaded software from being whitelisted automatically
+execute sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsigned off
+execute sudo /usr/libexec/ApplicationFirewall/socketfilterfw --setallowsignedapp off
 execute sudo pkill -HUP socketfilterfw
-# Block unwanted domains
-execute curl https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts | sudo tee -a /etc/hosts
-execute sudo dscacheutil -flushcache;sudo killall -HUP mDNSResponder
-# Expose hidden files and Library folder in Finder
+# Expose hidden files and show all extensionns in Finder
 execute sudo defaults write com.apple.finder AppleShowAllFiles -bool true
-execute sudo chflags nohidden ~/Library
-# Show all extensions
 execute sudo defaults write NSGlobalDomain AppleShowAllExtensions -bool true
+chflags nohidden ~/Library
 # Don't default save to ICloud
 execute sudo defaults write NSGlobalDomain NSDocumentSaveNewDocumentsToCloud -bool false
 # Disable crash reporter
@@ -109,8 +108,8 @@ copy_dir config/zsh $HOME/.config
 copy_dir config/ghostty $HOME/.config
 copy_dir config/aerospace $HOME/.config
 copy_dir config/karabiner $HOME/.config
-copy_file config/.gitconfig $HOME/
-copy_file config/ssh/config $HOME/.ssh/
+copy_file config/.gitconfig $HOME
+copy_file config/ssh/config $HOME/.ssh # Only copy file to not save known_hosts
 
 log "Setting up terminal"
 execute touch $HOME/.hushlogin
@@ -126,15 +125,20 @@ execute chmod -R go-w '/opt/homebrew/share/zsh'
 # Install neovim with dependencies
 execute brew install neovim fzf fd ripgrep bat delta tree-sitter-cli
 # Install other dev stuff
-execute brew install tmux unzip ffmpeg pnpm go libpq podman
+execute brew install tmux unzip ffmpeg go libpq podman
 # Install rust,cargo,... through rustup
 execute brew install rustup
 execute rustup default stable
 # Install apps I use
 execute brew install --cask font-jetbrains-mono-nerd-font ghostty
-execute brew install --cask eurkey karabiner-elements aldente betterdisplay raycast zen-browser tailscale-app
-execute brew install --cask obsidian font-computer-modern zotero
+execute brew install --cask eurkey karabiner-elements betterdisplay
+execute brew install --cask obsidian font-computer-modern zotero thunderbird nextcloud
 # Install aerospace window manager
 execute brew install --cask nikitabobko/tap/aerospace
 execute defaults write com.apple.dock expose-group-apps -bool true && killall Dock
 execute defaults write com.apple.spaces spans-displays -bool true && killall SystemUIServer
+# Install netbird
+execute brew install netbirdio/tap/netbird
+execute sudo netbird service install
+execute sudo netbird service start
+execute netbird up

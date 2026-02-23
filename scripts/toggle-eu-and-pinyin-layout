@@ -1,0 +1,22 @@
+#!/bin/bash
+
+# Required parameters:
+# @raycast.schemaVersion 1
+# @raycast.title Toggle EU and Pinyin Layout
+# @raycast.mode silent
+
+LAYOUT_ID_1="org.unknown.keylayout.EurKEYv12"
+LAYOUT_ID_2="com.apple.inputmethod.SCIM.ITABC"
+
+CURRENT_INPUT_SOURCE=$(macism)
+
+if [[ "$CURRENT_INPUT_SOURCE" == *"$LAYOUT_ID_1"* ]]; then
+    TARGET_ID="$LAYOUT_ID_2"
+elif [[ "$CURRENT_INPUT_SOURCE" == *"$LAYOUT_ID_2"* ]]; then
+    TARGET_ID="$LAYOUT_ID_1"
+else
+    # If currently on (unwanted) layout, switch to Layout 1
+    TARGET_ID="$LAYOUT_ID_1"
+fi
+
+macism $TARGET_ID

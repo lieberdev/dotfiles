@@ -1,9 +1,12 @@
-[user]
-  name = lieberdev
-  email = 219429329+thelieberdev@users.noreply.github.com
 [gpg]
   format = ssh
 [init]
 	defaultBranch = main
 [pull]
 	rebase = true
+
+[includeIf "hasconfig:remote.*.url:git@github.com:**/**"]
+    path = ~/.gitconfig-github
+
+[includeIf "hasconfig:remote.*.url:git@gitlab.lrz.de:**/**"]
+  path = ~/.gitconfig-lrz-gitlab

@@ -1,4 +1,4 @@
--- Remove trailing whitespace on save (https://vi.stackexchange.com/questions/37421/how-to-remove-neovim-trailing-white-space)
+-- Remove trailing white space on save (https://vi.stackexchange.com/questions/37421/how-to-remove-neovim-trailing-white-space)
 vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   pattern = {"*"},
   callback = function()
